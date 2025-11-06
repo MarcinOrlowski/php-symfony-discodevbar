@@ -1,0 +1,17 @@
+##################################################################################
+#
+# Disco DevBar
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+# @copyright 2025 Marcin Orlowski
+#
+##################################################################################
+
+includes:
+  - vendor/phpstan/phpstan-symfony/extension.neon
+parameters:
+  level: max
+  treatPhpDocTypesAsCertain: false
+  paths:
+    - src/
+#    - tests/

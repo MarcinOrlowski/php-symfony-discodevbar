@@ -1,0 +1,16 @@
+{
+  "name": "symfony-discodevbar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Development toolbar/banner for Symfony projects",
+  "scripts": {
+    "lint:css": "stylelint \"Resources/public/**/*.css\"",
+    "lint:css:fix": "stylelint \"Resources/public/**/*.css\" --fix",
+    "lint:md": "markdownlint-cli2 '**.md' --config .markdownlint.yaml"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.8.1",
+    "stylelint": "^16.1.0",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}

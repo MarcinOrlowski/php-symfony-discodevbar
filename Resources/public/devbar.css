@@ -1,0 +1,158 @@
+/* DiscoDevBar for development environment */
+.disco-devbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001; /* Higher than top-nav (1000) to ensure it's above */
+    background: repeating-linear-gradient(
+        45deg,
+        #b71c1c,
+        #b71c1c 10px,
+        #8e0000 10px,
+        #8e0000 20px
+    );
+    color: white;
+    font-size: 15px;
+}
+
+.disco-devbar-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    min-height: 40px;
+    overflow: hidden;
+}
+
+/* DiscoDevBar title - centered */
+.disco-devbar-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Left container - aligns content to left */
+.disco-devbar-container-left {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 0 0 auto;
+    justify-content: flex-start;
+}
+
+/* Left container with expand - grows to fill space */
+.disco-devbar-container-left.disco-devbar-container-expand {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Right container - aligns content to right */
+.disco-devbar-container-right {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+}
+
+/* Right container with expand - grows to fill space */
+.disco-devbar-container-right.disco-devbar-container-expand {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Widget wrapper */
+.disco-devbar-widget {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Expandable widget wrapper - grows to fill available space */
+.disco-devbar-widget-expand {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* DiscoDevBar links */
+.disco-devbar-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+/* Content wrapper inside link - handles padding and hover */
+.disco-devbar-link-content {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 8px;
+    transition: all 0.2s ease;
+}
+
+.disco-devbar-link:hover .disco-devbar-link-content {
+    background-color: orange;
+    color: black;
+    text-decoration: underline;
+}
+
+/* DiscoDevBar separators */
+.disco-devbar-separator {
+    margin: 0 2px;
+}
+
+/* Icon spacing in links */
+.disco-devbar-link-content i {
+    margin-right: 4px;
+}
+
+/* Adjust top navigation when DiscoDevBar is present (public pages only) */
+body:has(.disco-devbar):not(:has(.wrapper)) .top-nav {
+    top: 40px;
+    transition: top 0.3s ease;
+}
+
+/* Adjust content padding when DiscoDevBar is present (public pages only - exclude EasyAdmin) */
+body:has(.disco-devbar):not(:has(.wrapper)) .content {
+    padding-top: calc(var(--header-height) + 40px + 40px); /* header height + DiscoDevBar height + original padding */
+}
+
+/* Adjust content padding on mobile when DiscoDevBar is present (public pages only - exclude EasyAdmin) */
+@media (max-width: 768px) {
+    body:has(.disco-devbar):not(:has(.wrapper)) .content {
+        padding-top: calc(var(--header-height-mobile) + 40px + 40px);
+    }
+}
+
+/* Push down entire EasyAdmin layout to avoid overlap with DiscoDevBar */
+body:has(.disco-devbar) .wrapper {
+    padding-top: 40px;
+}
+
+/* Add base transition for smooth adjustments */
+.top-nav {
+    transition: top 0.3s ease;
+}
+
+/* Fix flash messages appearing under DiscoDevBar in EasyAdmin */
+body:has(.disco-devbar) #flash-messages {
+    position: relative;
+    z-index: 1002; /* Higher than DiscoDevBar (1001) */
+    margin-top: 0; /* Reset any default margin */
+}
+
+/* Special handling for login page where flash messages use absolute positioning */
+body.page-login:has(.disco-devbar) #flash-messages {
+    top: 40px; /* Height of DiscoDevBar */
+}
