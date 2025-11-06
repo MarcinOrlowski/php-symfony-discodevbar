@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    MarcinOrlowski\DiscoDevBar\:
+        resource: '../../src/'
+        exclude: '../../src/{DependencyInjection,Dto}'
+
+    MarcinOrlowski\DiscoDevBar\Service\DiscoDevBarService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    MarcinOrlowski\DiscoDevBar\Twig\DiscoDevBarExtension:
+        tags: ['twig.extension']

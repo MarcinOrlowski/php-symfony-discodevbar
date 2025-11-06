@@ -1,0 +1,64 @@
+# we need that to prevent commiting changes to these
+# files from worktree environent
+/.claude/settings.local.json
+
+# IDE
+/.idea
+
+# TMP files
+*.bak
+*~
+*.swp
+*.kate-swp
+*.tmp
+
+/product_group_translations*.json
+
+/resetdb.sh
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/mockup
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+**/.claude/settings.local.json
+
+# Worktree configuration
+.worktree-config.yaml
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+###< squizlabs/php_codesniffer ###
+node_modules/
+.npm/
+.cache/
+
+.viminfo
+
+# these can be modified when you shell into container
+.bashrc
+.bash_history
+.viminfo
+.mariadb_history
+
+# Files created in the folder by container tools like `mc`
+.config
+.local
+
+composer.lock

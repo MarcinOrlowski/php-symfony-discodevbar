@@ -1,0 +1,97 @@
+##################################################################################
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+#
+##################################################################################
+
+name: "Static Analysis"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+      - "dev"
+
+jobs:
+  analyze_sources:
+    name: "Check if there any source code to work on?"
+    runs-on: ubuntu-latest
+
+    outputs:
+      # Export 'filter' step check result so next step can use it.
+      run_action: ${{ steps.filter.outputs.src }}
+      # These are source files matching our filter that are affected by the PR.
+      changed_files: ${{ steps.filter.outputs.src_files }}
+
+    steps:
+      # https://github.com/marketplace/actions/checkout
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+
+      # https://github.com/marketplace/actions/paths-changes-filter
+      - name: "Look for changes that matters for us…"
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          # Token is optional for public repos, but required for private repos
+          token: ${{ secrets.GITHUB_TOKEN }}
+          list-files: 'escape'
+          filters: |
+            src:
+              - 'src/**/*.php'
+              - 'tests/**/*.php'
+
+      - name: "Will action step be run?"
+        run: |
+          found="NO"
+          [[ ${{ steps.filter.outputs.src }} == 'true' ]] && found="YES"
+          echo "run_action=${found}" >> $GITHUB_OUTPUT
+          echo -e "\n****************************************\n"
+          echo "${found}"
+          echo -e "****************************************"
+
+  check:
+    name: "Run tools…"
+    # Will run only if analyze_sources determined it is needed.
+    needs: analyze_sources
+    if: needs.analyze_sources.outputs.run_action == 'true'
+
+    strategy:
+      # do not stop the workflow if single run failed
+      fail-fast: false
+      matrix:
+        # Quotes are needed it is treated as a number and zero at decimal part is gone
+        # at runtime i.e. 8.10 -> 8.1, while "8.10" => "8.10".
+        php: ["8.1"]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # https://github.com/marketplace/actions/setup-php-action
+      - name: "Setup PHP ${{ matrix.php }}"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+          ini-values: |
+            memory_limit=512M
+
+
+      # https://github.com/marketplace/actions/checkout
+      - name: "Checkout repository…"
+        uses: actions/checkout@v4
+
+      # https://github.com/marketplace/actions/composer-php-actions
+      - name: "Installing dependencies…"
+        uses: php-actions/composer@v6
+        with:
+          version: 2
+          php_version: "${{ matrix.php }}"
+          dev: yes
+          memory_limit: 512M
+
+      - name: "Running linters…"
+        shell: bash
+        run: composer lint
