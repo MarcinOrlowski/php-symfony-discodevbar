@@ -9,17 +9,34 @@
 
 # Welcome!
 
-Development toolbar/banner for Symfony worktree-based workflows. Displays project information, links
-to tools, and ticket details in development environment.
+**DiscoDevBar** is a developer tool that adds a customizable toolbar/banner to your Symfony application,
+providing all-time access to essential development resources right from your browser. Perfect for
+streamlining your development workflow by keeping frequently-used tools, admin panels, and services
+just one click away.
+
+## What is DiscoDevBar?
+
+DiscoDevBar creates a persistent banner (typically placed at the top of your layout) that displays
+during development. It's highly configurable via YAML, allowing you to create custom buttons and
+links to anything you need: admin panels, database tools, email catchers, API documentation, or
+any other development resource.
+
+### Perfect for Docker Environments
+
+Since configuration is YAML-based, it's incredibly easy to generate dynamically when setting up new
+development environments. When using Docker or similar containerization, port numbers often change
+between setups - but with DiscoDevBar, you can regenerate the configuration file on each environment
+startup, ensuring all links always point to the correct ports and services.
 
 ## Features
 
-- Widget-based configuration system via YAML
-- Displays milestone, PR, and ticket information
-- Quick links to admin panel, phpMyAdmin, Mailpit
-- Customizable icons, text, and links
-- Only loads in development environment
-- Zero production overhead
+- **Fully customizable via YAML** - Easy to configure and regenerate for different environments
+- **Flexible widget system** - Create buttons with Font Awesome icons, emoji, text labels, or any combination
+- **Display anything** - Add links to admin panels, database tools, email catchers, API docs, or any development resource
+- **Action buttons** - Direct access to frequently-used tools and services
+- **Environment-aware** - Only loads in development environment, zero production overhead
+- **Dynamic configuration** - Perfect for Docker setups where ports change - regenerate config on startup
+- **Customizable placement** - Position widgets on left or right side of the toolbar
 
 ## Requirements
 

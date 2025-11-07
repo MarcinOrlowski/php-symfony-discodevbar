@@ -16,7 +16,13 @@
                        {% if widget.target %}target="{{ widget.target }}"{% endif %}
                        {% if widget.title %}title="{{ widget.title }}"{% endif %}>
                         <span class="disco-devbar-link-content">
-                            {% if widget.icon %}<i class="fa-solid {{ widget.icon }}"></i>{% endif %}
+                            {% if widget.icon %}
+                                {% if widget.iconType.value == 'fa' %}
+                                    <i class="fa-solid {{ widget.icon }}"></i>
+                                {% else %}
+                                    {{ widget.icon }}
+                                {% endif %}
+                            {% endif %}
                             {% if widget.text %}{{ widget.text }}{% endif %}
                         </span>
                     </a>
@@ -34,7 +40,13 @@
                        {% if widget.target %}target="{{ widget.target }}"{% endif %}
                        {% if widget.title %}title="{{ widget.title }}"{% endif %}>
                         <span class="disco-devbar-link-content">
-                            {% if widget.icon %}<i class="fa-solid {{ widget.icon }}"></i>{% endif %}
+                            {% if widget.icon %}
+                                {% if widget.iconType.value == 'fa' %}
+                                    <i class="fa-solid {{ widget.icon }}"></i>
+                                {% else %}
+                                    {{ widget.icon }}
+                                {% endif %}
+                            {% endif %}
                             {% if widget.text %}{{ widget.text }}{% endif %}
                         </span>
                     </a>
