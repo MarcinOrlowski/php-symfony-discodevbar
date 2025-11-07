@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0 (TBD)
+
+- Added error view mode to display issues (like missing config file) with distinct red/orange styling
+
 ## v1.2.0 (2025-11-07)
 
 - Added `icon_type` parameter for widgets: `fa` (Font Awesome, default) or `text` (for emoji/plain text)

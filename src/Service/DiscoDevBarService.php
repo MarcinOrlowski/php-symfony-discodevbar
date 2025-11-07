@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace MarcinOrlowski\DiscoDevBar\Service;
 
+use Composer\InstalledVersions;
 use MarcinOrlowski\DiscoDevBar\Dto\DiscoDevBarData;
 use MarcinOrlowski\DiscoDevBar\Dto\Widget;
 use Symfony\Component\Yaml\Yaml;
@@ -43,14 +44,19 @@ class DiscoDevBarService
     public function getDiscoDevBarData(): DiscoDevBarData
     {
         $configPath = $this->findConfigFile();
+        $version = $this->getVersion();
 
-        // Default: empty widgets
+        // Default: show error message when no config found
         if ($configPath === null) {
+            $errorMessage = 'Config file not found: ' . self::CONFIG_FILES[0];
             return new DiscoDevBarData(
-                left:        [],
-                right:       [],
-                leftExpand:  false,
-                rightExpand: false
+                left:         [],
+                right:        [],
+                leftExpand:   false,
+                rightExpand:  false,
+                hasError:     true,
+                errorMessage: $errorMessage,
+                version:      $version
             );
         }
 
@@ -73,10 +79,13 @@ class DiscoDevBarService
         $rightWidgets = $this->loadWidgets(\is_array($right) ? $right : []);
 
         return new DiscoDevBarData(
-            left:        $leftWidgets,
-            right:       $rightWidgets,
-            leftExpand:  $this->hasExpandingWidget($leftWidgets),
-            rightExpand: $this->hasExpandingWidget($rightWidgets)
+            left:         $leftWidgets,
+            right:        $rightWidgets,
+            leftExpand:   $this->hasExpandingWidget($leftWidgets),
+            rightExpand:  $this->hasExpandingWidget($rightWidgets),
+            hasError:     false,
+            errorMessage: '',
+            version:      $version
         );
     }
 
@@ -130,5 +139,18 @@ class DiscoDevBarService
             },
             $widgetsData
         );
+    }
+
+    /**
+     * Get bundle version from Composer
+     */
+    private function getVersion(): string
+    {
+        try {
+            $version = InstalledVersions::getVersion('marcin-orlowski/symfony-discodevbar');
+            return $version ?? 'dev';
+        } catch (\Exception $e) {
+            return 'dev';
+        }
     }
 }
