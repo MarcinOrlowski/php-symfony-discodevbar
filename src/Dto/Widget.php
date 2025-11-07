@@ -28,7 +28,8 @@ class Widget
         public readonly string $url,
         public readonly string $target,
         public readonly string $title,
-        public readonly bool $expand
+        public readonly bool $expand,
+        public readonly IconType $iconType = IconType::FONT_AWESOME
     ) {
     }
 
@@ -45,14 +46,16 @@ class Widget
         $target = $data['target'] ?? '';
         $title = $data['title'] ?? '';
         $expand = $data['expand'] ?? false;
+        $iconType = $data['icon_type'] ?? 'fa';
 
         return new self(
-            icon:   \is_string($icon) ? $icon : '',
-            text:   \is_string($text) ? $text : '',
-            url:    \is_string($url) ? $url : '',
-            target: \is_string($target) ? $target : '',
-            title:  \is_string($title) ? $title : '',
-            expand: \is_bool($expand) ? $expand : false
+            icon:     \is_string($icon) ? $icon : '',
+            text:     \is_string($text) ? $text : '',
+            url:      \is_string($url) ? $url : '',
+            target:   \is_string($target) ? $target : '',
+            title:    \is_string($title) ? $title : '',
+            expand:   \is_bool($expand) ? $expand : false,
+            iconType: IconType::tryFrom(\is_string($iconType) ? $iconType : 'fa') ?? IconType::FONT_AWESOME
         );
     }
 }
