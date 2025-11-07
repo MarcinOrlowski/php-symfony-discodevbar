@@ -130,17 +130,21 @@ widgets:
 ```
 
 **Benefits:**
+
 - Works out of the box - no additional setup needed
 - Icons display immediately
 - Configuration kept in one place with your widgets
 
-**Note:** Only enable this if your application doesn't already include Font Awesome. If you have Font Awesome in your project, use Option 2 instead to avoid version conflicts.
+**Note:** Only enable this if your application doesn't already include Font Awesome. If you have Font Awesome in
+your project, use Option 2 instead to avoid version conflicts.
 
 #### Option 2: Manual Setup (Recommended if Font Awesome Already Installed)
 
-If your application already includes Font Awesome (via NPM, CDN, or other means), simply use Font Awesome icon classes in your widget configuration. DiscoDevBar will use your existing Font Awesome installation.
+If your application already includes Font Awesome (via NPM, CDN, or other means), simply use Font Awesome icon
+classes in your widget configuration. DiscoDevBar will use your existing Font Awesome installation.
 
 **Example:**
+
 ```yaml
 widgets:
   left:
