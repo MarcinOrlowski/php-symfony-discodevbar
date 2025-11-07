@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.2.0 (TBD)
+## v1.2.0 (2025-11-07)
 
 - Added `icon_type` parameter for widgets: `fa` (Font Awesome, default) or `text` (for emoji/plain text)
 
