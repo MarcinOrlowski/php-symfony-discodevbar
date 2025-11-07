@@ -34,18 +34,11 @@ class DiscoDevBarExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
-
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(\dirname(__DIR__) . '/../Resources/config')
         );
 
         $loader->load('services.yaml');
-
-        // Store Font Awesome configuration as parameters for use in Twig
-        $container->setParameter('disco_dev_bar.font_awesome.enabled', $config['font_awesome']['enabled']);
-        $container->setParameter('disco_dev_bar.font_awesome.version', $config['font_awesome']['version']);
     }
 }

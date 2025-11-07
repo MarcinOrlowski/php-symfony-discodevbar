@@ -115,18 +115,24 @@ DiscoDevBar supports Font Awesome icons for widgets. You have two options for in
 
 #### Option 1: Automatic Inclusion (Recommended for Quick Setup)
 
-Enable automatic Font Awesome inclusion from CDN by creating `config/packages/disco_dev_bar.yaml`:
+Enable automatic Font Awesome inclusion from CDN in your `.disco-devbar.yaml` configuration file:
 
 ```yaml
-disco_dev_bar:
-    font_awesome:
-        enabled: true           # Enable auto-include from CDN (default: false)
-        version: '6.5.1'        # Font Awesome version to use (default: '6.5.1')
+font_awesome:
+    enabled: true           # Enable auto-include from CDN (default: false)
+    version: '6.5.1'        # Font Awesome version to use (optional, default: 6.5.1)
+
+widgets:
+    left:
+        - icon: "fa-flag-checkered"
+          text: "1.0"
+          url: "https://github.com/user/repo"
 ```
 
 **Benefits:**
 - Works out of the box - no additional setup needed
 - Icons display immediately
+- Configuration kept in one place with your widgets
 
 **Note:** Only enable this if your application doesn't already include Font Awesome. If you have Font Awesome in your project, use Option 2 instead to avoid version conflicts.
 

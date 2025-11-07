@@ -36,10 +36,13 @@ class DiscoDevBarService
         '.debug-banner.yaml',  // Legacy, kept for backward compatibility
     ];
 
+    /**
+     * Default Font Awesome version
+     */
+    private const DEFAULT_FONT_AWESOME_VERSION = '6.5.1';
+
     public function __construct(
-        private readonly string $projectDir,
-        private readonly bool $fontAwesomeEnabled = false,
-        private readonly string $fontAwesomeVersion = '6.5.1'
+        private readonly string $projectDir
     ) {
     }
 
@@ -59,8 +62,8 @@ class DiscoDevBarService
                 hasError:            true,
                 errorMessage:        $errorMessage,
                 version:             $version,
-                fontAwesomeEnabled:  $this->fontAwesomeEnabled,
-                fontAwesomeVersion:  $this->fontAwesomeVersion
+                fontAwesomeEnabled:  false,
+                fontAwesomeVersion:  self::DEFAULT_FONT_AWESOME_VERSION
             );
         }
 
@@ -69,6 +72,20 @@ class DiscoDevBarService
         // Ensure config is an array and has the expected structure
         if (!\is_array($config)) {
             $config = [];
+        }
+
+        // Extract Font Awesome configuration from YAML
+        $fontAwesomeConfig = $config['font_awesome'] ?? [];
+        $fontAwesomeEnabled = false;
+        $fontAwesomeVersion = self::DEFAULT_FONT_AWESOME_VERSION;
+
+        if (\is_array($fontAwesomeConfig)) {
+            $fontAwesomeEnabled = $fontAwesomeConfig['enabled'] ?? false;
+            // Use user's version if provided and not null, otherwise use default
+            $userVersion = $fontAwesomeConfig['version'] ?? null;
+            if ($userVersion !== null && \is_string($userVersion)) {
+                $fontAwesomeVersion = $userVersion;
+            }
         }
 
         $widgets = $config['widgets'] ?? [];
@@ -90,8 +107,8 @@ class DiscoDevBarService
             hasError:            false,
             errorMessage:        '',
             version:             $version,
-            fontAwesomeEnabled:  $this->fontAwesomeEnabled,
-            fontAwesomeVersion:  $this->fontAwesomeVersion
+            fontAwesomeEnabled:  \is_bool($fontAwesomeEnabled) ? $fontAwesomeEnabled : false,
+            fontAwesomeVersion:  $fontAwesomeVersion
         );
     }
 
