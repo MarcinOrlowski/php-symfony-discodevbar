@@ -10,6 +10,8 @@ services:
     MarcinOrlowski\DiscoDevBar\Service\DiscoDevBarService:
         arguments:
             $projectDir: '%kernel.project_dir%'
+            $fontAwesomeEnabled: '%disco_dev_bar.font_awesome.enabled%'
+            $fontAwesomeVersion: '%disco_dev_bar.font_awesome.version%'
 
     MarcinOrlowski\DiscoDevBar\Twig\DiscoDevBarExtension:
         tags: ['twig.extension']

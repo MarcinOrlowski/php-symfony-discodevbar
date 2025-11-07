@@ -97,16 +97,69 @@ widgets:
 
 ### Widget Properties
 
-| Property |   Type   | Required | Description                                                                    |
-|----------|:--------:|:--------:|--------------------------------------------------------------------------------|
-| `icon`*  | `string` |          | Optional Font Awesome icon class (e.g., `fa-bug`).                             |
-| `text`*  | `string` |          | Optional widget label to display (e.g., `Mailpit`).                            |
-| `url`    | `string` | required | Link URL to redirect to once widget is clicked.                                |
-| `target` | `string` |          | Link target (e.g., `_blank`). Default: no target                               |
-| `title`  | `string` |          | Tooltip text. If not given, `url` is shown.                                    |
-| `expand` |  `bool`  |          | Set to `true` to make widget expand and fill available space. Default `false`. |
+| Property    |   Type   | Required | Description                                                                    |
+|-------------|:--------:|:--------:|--------------------------------------------------------------------------------|
+| `icon`*     | `string` |          | Optional icon to display. Can be Font Awesome class or emoji/text.            |
+| `icon_type` | `string` |          | Icon type: `fa` (Font Awesome, default) or `text` (emoji/plain text).         |
+| `text`*     | `string` |          | Optional widget label to display alongside icon.                              |
+| `url`       | `string` | required | Link URL to redirect to once widget is clicked.                               |
+| `target`    | `string` |          | Link target (e.g., `_blank`). Default: no target                              |
+| `title`     | `string` |          | Tooltip text. If not given, `url` is shown.                                   |
+| `expand`    |  `bool`  |          | Set to `true` to make widget expand and fill available space. Default `false`.|
 
 *) Either `icon` or `text` must be provided or exception will be thrown.
+
+### Font Awesome Icons
+
+DiscoDevBar supports Font Awesome icons for widgets. You have two options for including Font Awesome:
+
+#### Option 1: Automatic Inclusion (Recommended for Quick Setup)
+
+Enable automatic Font Awesome inclusion from CDN by creating `config/packages/disco_dev_bar.yaml`:
+
+```yaml
+disco_dev_bar:
+    font_awesome:
+        enabled: true           # Enable auto-include from CDN (default: false)
+        version: '6.5.1'        # Font Awesome version to use (default: '6.5.1')
+```
+
+**Benefits:**
+- Works out of the box - no additional setup needed
+- Icons display immediately
+
+**Note:** Only enable this if your application doesn't already include Font Awesome. If you have Font Awesome in your project, use Option 2 instead to avoid version conflicts.
+
+#### Option 2: Manual Setup (Recommended if Font Awesome Already Installed)
+
+If your application already includes Font Awesome (via NPM, CDN, or other means), simply use Font Awesome icon classes in your widget configuration. DiscoDevBar will use your existing Font Awesome installation.
+
+**Example:**
+```yaml
+widgets:
+  left:
+    - icon: "fa-database"
+      icon_type: "fa"  # Use Font Awesome (default)
+      url: "http://localhost:8080"
+```
+
+If you don't have Font Awesome installed, you can include it manually in your base template:
+
+```twig
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+```
+
+#### Using Text/Emoji Instead
+
+If you prefer not to use Font Awesome, you can use emoji or plain text:
+
+```yaml
+widgets:
+  left:
+    - icon: "🚀"
+      icon_type: "text"  # Use plain text/emoji
+      url: "/admin"
+```
 
 ## Usage
 

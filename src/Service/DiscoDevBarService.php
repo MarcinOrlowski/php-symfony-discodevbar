@@ -37,7 +37,9 @@ class DiscoDevBarService
     ];
 
     public function __construct(
-        private readonly string $projectDir
+        private readonly string $projectDir,
+        private readonly bool $fontAwesomeEnabled = false,
+        private readonly string $fontAwesomeVersion = '6.5.1'
     ) {
     }
 
@@ -50,13 +52,15 @@ class DiscoDevBarService
         if ($configPath === null) {
             $errorMessage = 'Config file not found: ' . self::CONFIG_FILES[0];
             return new DiscoDevBarData(
-                left:         [],
-                right:        [],
-                leftExpand:   false,
-                rightExpand:  false,
-                hasError:     true,
-                errorMessage: $errorMessage,
-                version:      $version
+                left:                [],
+                right:               [],
+                leftExpand:          false,
+                rightExpand:         false,
+                hasError:            true,
+                errorMessage:        $errorMessage,
+                version:             $version,
+                fontAwesomeEnabled:  $this->fontAwesomeEnabled,
+                fontAwesomeVersion:  $this->fontAwesomeVersion
             );
         }
 
@@ -79,13 +83,15 @@ class DiscoDevBarService
         $rightWidgets = $this->loadWidgets(\is_array($right) ? $right : []);
 
         return new DiscoDevBarData(
-            left:         $leftWidgets,
-            right:        $rightWidgets,
-            leftExpand:   $this->hasExpandingWidget($leftWidgets),
-            rightExpand:  $this->hasExpandingWidget($rightWidgets),
-            hasError:     false,
-            errorMessage: '',
-            version:      $version
+            left:                $leftWidgets,
+            right:               $rightWidgets,
+            leftExpand:          $this->hasExpandingWidget($leftWidgets),
+            rightExpand:         $this->hasExpandingWidget($rightWidgets),
+            hasError:            false,
+            errorMessage:        '',
+            version:             $version,
+            fontAwesomeEnabled:  $this->fontAwesomeEnabled,
+            fontAwesomeVersion:  $this->fontAwesomeVersion
         );
     }
 

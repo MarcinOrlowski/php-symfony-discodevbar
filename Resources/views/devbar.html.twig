@@ -3,6 +3,12 @@
 {# Show with `{% if app.environment == 'dev' %}` condition                        #}
 
 {% set banner_data = debug_banner_data() %}
+
+{# Auto-include Font Awesome if enabled in configuration #}
+{% if banner_data.fontAwesomeEnabled %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{{ banner_data.fontAwesomeVersion }}/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endif %}
+
 <div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}">
     <div class="disco-devbar-content">
         {% if banner_data.hasError %}
