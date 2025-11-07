@@ -16,6 +16,17 @@
     font-size: 15px;
 }
 
+/* DiscoDevBar error state - more red/orange to indicate problem */
+.disco-devbar-error {
+    background: repeating-linear-gradient(
+        45deg,
+        #d32f2f,
+        #d32f2f 10px,
+        #ff5722 10px,
+        #ff5722 20px
+    );
+}
+
 .disco-devbar-content {
     max-width: 1100px;
     margin: 0 auto;
@@ -115,6 +126,13 @@
 /* Icon spacing in links */
 .disco-devbar-link-content i {
     margin-right: 4px;
+}
+
+/* Plain text in devbar (non-link) */
+.disco-devbar-text {
+    color: white;
+    font-weight: normal;
+    padding: 6px 8px;
 }
 
 /* Adjust top navigation when DiscoDevBar is present (public pages only) */
