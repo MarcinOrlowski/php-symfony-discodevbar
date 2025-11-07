@@ -51,7 +51,13 @@ php bin/console assets:install --symlink
 
 ## Configuration
 
-Create `.debug-banner.yaml` in your project root with widget configuration:
+Create a configuration file in your project root with widget configuration. The bundle will automatically
+detect and load the first file found (in order of preference):
+
+- `.disco-devbar.yaml` (recommended)
+- `.disco-devbar.yml`
+
+Example configuration:
 
 ```yaml
 widgets:
