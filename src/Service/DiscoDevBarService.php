@@ -26,7 +26,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class DiscoDevBarService
 {
-    private const CONFIG_FILE = '.debug-banner.yaml';
+    /**
+     * List of supported config filenames (in order of preference)
+     */
+    private const CONFIG_FILES = [
+        '.disco-devbar.yaml',
+        '.disco-devbar.yml',
+        '.debug-banner.yaml',  // Legacy, kept for backward compatibility
+    ];
 
     public function __construct(
         private readonly string $projectDir
@@ -35,10 +42,10 @@ class DiscoDevBarService
 
     public function getDiscoDevBarData(): DiscoDevBarData
     {
-        $configPath = $this->projectDir . '/' . self::CONFIG_FILE;
+        $configPath = $this->findConfigFile();
 
         // Default: empty widgets
-        if (!\file_exists($configPath)) {
+        if ($configPath === null) {
             return new DiscoDevBarData(
                 left:        [],
                 right:       [],
@@ -71,6 +78,23 @@ class DiscoDevBarService
             leftExpand:  $this->hasExpandingWidget($leftWidgets),
             rightExpand: $this->hasExpandingWidget($rightWidgets)
         );
+    }
+
+    /**
+     * Find the first existing config file from the list of supported filenames
+     *
+     * @return string|null Full path to config file or null if none found
+     */
+    private function findConfigFile(): ?string
+    {
+        foreach (self::CONFIG_FILES as $filename) {
+            $path = $this->projectDir . '/' . $filename;
+            if (\file_exists($path)) {
+                return $path;
+            }
+        }
+
+        return null;
     }
 
     /**
