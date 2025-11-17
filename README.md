@@ -1,10 +1,11 @@
 ```ascii
- █▀▀▄  ▀                     █▀▀▄           █▀▀▄
- █  █ ▀█  ▄▀▀▄ ▄▀▀▄ ▄▀▀▄     █  █ ▄▀▀▄ █  █ █▀▀▄ ▄▀▀▄ █▄▀
- █  █  █   ▀▄  █    █  █     █  █ █▀▀  █  █ █  █  ▄▄█ █
- █▄▄▀ ▄█▄ ▀▄▄▀ ▀▄▄▀ ▀▄▄▀     █▄▄▀ ▀▄▄▀ ▀▄▀  █▄▄▀ ▀▄▄▀ █
+▄▀▀▄             ▄▀█                    █▀▀▄  ▀                     █▀▀▄           █▀▀▄
+▀▄▄       █▀█▀▄  █   ▄▀▀▄ █▀▀▄          █  █ ▀█  ▄▀▀▄ ▄▀▀▄ ▄▀▀▄     █  █ ▄▀▀▄ █  █ █▀▀▄ ▄▀▀▄ █▄▀
+   █ █  █ █ █ █ ▀█▀  █  █ █  █ █  █     █  █  █   ▀▄  █    █  █     █  █ █▀▀  █  █ █  █  ▄▄█ █
+▀▄▄▀ ▀▄▄█ █   █  █   ▀▄▄▀ █  █ ▀▄▄█     █▄▄▀ ▄█▄ ▀▄▄▀ ▀▄▄▀ ▀▄▄▀     █▄▄▀ ▀▄▄▀ ▀▄▀  █▄▄▀ ▀▄▄▀ █
+     ▄▄▄▀                      ▄▄▄▀
  
-   Customizable developer toolbar for Symfony projects
+                        Customizable developer toolbar for Symfony projects
 ```
 
 # Welcome!
@@ -20,6 +21,8 @@ DiscoDevBar creates a persistent banner (typically placed at the top of your lay
 during development. It's highly configurable via YAML, allowing you to create custom buttons and
 links to anything you need: admin panels, database tools, email catchers, API documentation, or
 any other development resource.
+
+![img](img/disco-devbar.png)
 
 ### Perfect for Docker Environments
 
