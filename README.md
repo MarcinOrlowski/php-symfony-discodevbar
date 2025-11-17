@@ -77,25 +77,39 @@ detect and load the first file found (in order of preference):
 - `.disco-devbar.yaml` (recommended)
 - `.disco-devbar.yml`
 
-Example configuration:
+Example configuration that produces devbar shown in the screenshot above:
 
 ```yaml
 widgets:
-  left:
-    - icon: "fa-flag-checkered"
-      text: "1.0"
-      url: "https://github.com/user/repo/issues?q=milestone%3A1.0"
-      target: "_blank"
-      title: "Open Milestone Issues"
-
-  right:
-    - icon: "fa-globe"
-      url: "/"
-      title: "Go to Homepage"
-    - icon: "fa-database"
-      url: "http://localhost:8080"
-      target: "_blank"
-      title: "Open phpMyAdmin"
+   left:
+     - icon: "fa-bug"
+       text: "1.47"
+       url: "https://github.com/<FOO>/issues?q=is%3Aissue%20state%3Aopen%20milestone%3A1.47"
+       target: "_blank"
+       title: "Open Milestone 1.47 Issues"
+     - icon: "fa-code-pull-request"
+       url: "https://github.com/<FOO>/pulls"
+       target: "_blank"
+       title: "Open Repository Pull Requests"
+     - text: "#1240: [ADM] Fix PageSection CRUD priority field configuration"
+       url: "https://github.com/<FOO>>/issues/1240"
+       target: "_blank"
+       expand: true
+   right:
+     - icon: "fa-globe"
+       url: "/"
+       title: "Go to Main Page"
+     - icon: "fa-crown"
+       url: "/admin/"
+       title: "Open Admin Panel"
+     - icon: "fa-database"
+       url: "http://localhost:21440"
+       target: "_blank"
+       title: "Open Database Manager"
+     - icon: "fa-envelope"
+       url: "http://localhost:21540"
+       target: "_blank"
+       title: "Open Mailpit"
 ```
 
 ### Widget Properties
@@ -105,7 +119,7 @@ widgets:
 | `icon`*     | `string` |          | Optional icon to display. Can be Font Awesome class or emoji/text.            |
 | `icon_type` | `string` |          | Icon type: `fa` (Font Awesome, default) or `text` (emoji/plain text).         |
 | `text`*     | `string` |          | Optional widget label to display alongside icon.                              |
-| `url`       | `string` | required | Link URL to redirect to once widget is clicked.                               |
+| `url`       | `string` |    *     | Link URL to redirect to once widget is clicked.                               |
 | `target`    | `string` |          | Link target (e.g., `_blank`). Default: no target                              |
 | `title`     | `string` |          | Tooltip text. If not given, `url` is shown.                                   |
 | `expand`    |  `bool`  |          | Set to `true` to make widget expand and fill available space. Default `false`.|
