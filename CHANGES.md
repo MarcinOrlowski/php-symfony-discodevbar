@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 (TBD)
+
+- [#020] DiscoDevBar is now also added to unhandled exception error screens
+
 ## 1.4.0 (2025-12-12)
 
 - [#011] Added breathing animation effect to devbar stripes
