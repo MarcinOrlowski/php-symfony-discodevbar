@@ -5,6 +5,7 @@
     left: 0;
     right: 0;
     z-index: 1001; /* Higher than top-nav (1000) to ensure it's above */
+    background: #8e0000;
     color: white;
     font-size: 15px;
     overflow: hidden;
@@ -21,13 +22,13 @@
         #8e0000 10px,
         #8e0000 20px
     );
-    animation: breathe 4s ease-in-out infinite;
+    animation: breathe 6s ease-in-out infinite;
 }
 
 /* Breathing animation for subtle pulsing effect */
 @keyframes breathe {
     0%, 100% {
-        opacity: 0.7;
+        opacity: 0.3;
         transform: scale(1);
     }
     50% {
@@ -36,7 +37,10 @@
     }
 }
 
-/* DiscoDevBar error state - more red/orange to indicate problem */
+.disco-devbar-error {
+    background: #d32f2f;
+}
+
 .disco-devbar-error::before {
     background: repeating-linear-gradient(
         45deg,
