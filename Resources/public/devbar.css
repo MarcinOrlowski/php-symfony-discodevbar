@@ -5,6 +5,15 @@
     left: 0;
     right: 0;
     z-index: 1001; /* Higher than top-nav (1000) to ensure it's above */
+    color: white;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.disco-devbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: repeating-linear-gradient(
         45deg,
         #b71c1c,
@@ -12,8 +21,6 @@
         #8e0000 10px,
         #8e0000 20px
     );
-    color: white;
-    font-size: 15px;
     animation: breathe 4s ease-in-out infinite;
 }
 
@@ -30,7 +37,7 @@
 }
 
 /* DiscoDevBar error state - more red/orange to indicate problem */
-.disco-devbar-error {
+.disco-devbar-error::before {
     background: repeating-linear-gradient(
         45deg,
         #d32f2f,
@@ -41,6 +48,7 @@
 }
 
 .disco-devbar-content {
+    position: relative;
     max-width: 1100px;
     margin: 0 auto;
     display: flex;
