@@ -63,22 +63,26 @@ class ExceptionListener
             return;
         }
 
-        // Inject devbar after <body> tag (handle both <body> and <body ...>)
+        // Extract <link> tags and inject them into <head>
+        preg_match_all('/<link[^>]*>/i', $devbarHtml, $linkMatches);
+        $links = implode("\n", $linkMatches[0]);
+        $devbarDiv = preg_replace('/<link[^>]*>\s*/i', '', $devbarHtml);
+
+        // Inject links and extra styling into <head>
+        $extraStyle = '<style>.sf-error-header { margin-top: 40px; }</style>';
+        $content = str_replace('</head>', $links . $extraStyle . '</head>', $content);
+
+        // Inject devbar div after <body> tag
         $content = preg_replace(
             '/(<body[^>]*>)/i',
-            '$1' . $devbarHtml,
+            '$1' . $devbarDiv,
             $content,
             1
         );
 
-        // preg_replace returns null on error
         if ($content === null) {
             return;
         }
-
-        // Add extra padding to the exception page header to avoid overlap with devbar
-        $extraStyle = '<style>.sf-error-header { margin-top: 40px; }</style>';
-        $content = str_replace('</head>', $extraStyle . '</head>', $content);
 
         $response->setContent($content);
     }
