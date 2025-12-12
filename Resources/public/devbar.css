@@ -14,6 +14,19 @@
     );
     color: white;
     font-size: 15px;
+    animation: breathe 4s ease-in-out infinite;
+}
+
+/* Breathing animation for subtle pulsing effect */
+@keyframes breathe {
+    0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
 }
 
 /* DiscoDevBar error state - more red/orange to indicate problem */

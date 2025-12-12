@@ -1,0 +1,182 @@
+##################################################################################
+#
+# Post-Merge PR Cleanup and Validation
+#
+# This workflow runs after a PR is merged to perform cleanup and validation:
+# 1. Deletes merge strategy reminder comment when merge method matches recommendation
+# 2. On mismatch: edits comment to show ❌ and posts a detailed warning comment
+# 3. Locks the PR conversation
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+#
+##################################################################################
+
+name: "Post-Merge Cleanup"
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  cleanup_and_validate:
+    name: "Cleanup and validate merged PR"
+    runs-on: ubuntu-latest
+    # Only run when PR is actually merged (not just closed)
+    if: github.event.pull_request.merged == true
+
+    steps:
+      - name: "Process merged PR"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            console.log(`Processing merged PR #${pr.number}: ${pr.title}`);
+
+            let recommendedMethod = null;
+            let commentToEdit = null;
+            let actualMethod = null;
+
+            try {
+              // Find and process the merge strategy reminder comment
+              console.log('Searching for merge strategy reminder comment...');
+              const comments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number
+              });
+
+              // Look for our reminder comment with HTML metadata
+              // Note: Only one reminder comment exists per PR by design
+              const reminderPattern = /<!-- merge-strategy-reminder: (squash|merge-commit|rebase) -->/;
+
+              for (const comment of comments.data) {
+                const match = comment.body.match(reminderPattern);
+                if (match) {
+                  recommendedMethod = match[1];
+                  commentToEdit = comment;
+                  console.log(`Found reminder comment (ID: ${comment.id}) with recommended method: ${recommendedMethod}`);
+                  break; // Stop after first match since only one exists
+                }
+              }
+
+              // Detect actual merge method if we have a recommendation
+              if (recommendedMethod) {
+                try {
+                  console.log(`Fetching merge commit details for SHA: ${pr.merge_commit_sha}`);
+                  const commit = await github.rest.repos.getCommit({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: pr.merge_commit_sha
+                  });
+
+                  const parentCount = commit.data.parents.length;
+                  console.log(`Merge commit has ${parentCount} parent(s)`);
+
+                  // Determine merge method based on parent count
+                  if (parentCount >= 2) {
+                    actualMethod = 'merge-commit';
+                    console.log('Detected merge method: Create a merge commit');
+                  } else if (parentCount === 1) {
+                    // Single parent typically means squash (rebase is rarely used)
+                    actualMethod = 'squash';
+                    console.log('Detected merge method: Squash and merge');
+                  }
+                } catch (error) {
+                  console.error(`Error detecting merge method: ${error.message}`);
+                  // Continue without visual indicator if detection fails
+                }
+              }
+
+              // Edit the reminder comment to be compact with visual feedback
+              if (commentToEdit && recommendedMethod) {
+                const methodDisplay = recommendedMethod === 'squash' ? 'Squash and merge' :
+                                     recommendedMethod === 'merge-commit' ? 'Create a merge commit' :
+                                     'Rebase and merge';
+
+                const methodEmoji = recommendedMethod === 'squash' ? '🔀' :
+                                   recommendedMethod === 'merge-commit' ? '🔗' :
+                                   '🔄';
+
+                let compactBody;
+
+                // Check for mismatch and add visual indicators
+                if (actualMethod && actualMethod !== recommendedMethod) {
+                  const actualDisplay = actualMethod === 'squash' ? 'Squash and merge' :
+                                       actualMethod === 'merge-commit' ? 'Create a merge commit' :
+                                       'Rebase and merge';
+
+                  compactBody = `<!-- merge-strategy-reminder: ${recommendedMethod} -->\n<!-- merge-strategy-reminder-compacted -->\n${methodEmoji} Recommended merge strategy: **${methodDisplay}** but used **${actualDisplay}** ❌`;
+                  console.log(`⚠️ Mismatch detected! Recommended: ${recommendedMethod}, Actual: ${actualMethod}`);
+
+                  // Post mismatch warning comment
+                  try {
+                    const recommendedDisplay = methodDisplay;
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: pr.number,
+                      body: `## ⚠️ Merge Method Mismatch Detected\n\n**Recommended method:** ${recommendedDisplay}\n**Actually used:** ${actualDisplay}`
+                    });
+                    console.log('Posted mismatch warning comment');
+                  } catch (error) {
+                    console.error(`Error posting mismatch warning: ${error.message}`);
+                  }
+                } else if (actualMethod) {
+                  // Merge method matches recommendation - delete the comment as it served its purpose
+                  await github.rest.issues.deleteComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: commentToEdit.id
+                  });
+                  console.log('✅ Merge method matches recommendation - deleted reminder comment');
+                  commentToEdit = null; // Prevent further processing since comment is deleted
+                } else {
+                  // Fallback if detection failed
+                  compactBody = `<!-- merge-strategy-reminder: ${recommendedMethod} -->\n<!-- merge-strategy-reminder-compacted -->\n${methodEmoji} Recommended merge strategy: **${methodDisplay}**`;
+                  console.log('⚠️ Could not detect actual merge method, using fallback format');
+                }
+
+                // Only update comment if it wasn't deleted (mismatch or fallback cases)
+                if (commentToEdit && compactBody) {
+                  await github.rest.issues.updateComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: commentToEdit.id,
+                    body: compactBody
+                  });
+                  console.log('Edited reminder comment to compact format with visual feedback');
+                }
+              } else {
+                console.log('No reminder comment found (PR may not have targeted dev or master)');
+              }
+
+            } catch (error) {
+              console.error(`Error processing reminder comment: ${error.message}`);
+              // Continue to lock step even if comment processing fails
+            }
+
+      - name: "Lock PR conversation"
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+
+            try {
+              console.log(`Locking PR #${pr.number} conversation...`);
+              await github.rest.issues.lock({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                lock_reason: 'resolved'
+              });
+              console.log('✅ PR conversation locked successfully');
+            } catch (error) {
+              console.error(`Error locking PR: ${error.message}`);
+              // Don't fail the workflow if locking fails
+            }
