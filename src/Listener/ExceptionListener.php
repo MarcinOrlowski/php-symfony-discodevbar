@@ -56,17 +56,12 @@ class ExceptionListener
             return;
         }
 
-        // Render the devbar template
         try {
             $devbarHtml = $this->twig->render('@DiscoDevBar/devbar.html.twig');
         } catch (\Throwable) {
             // If rendering fails, don't break the exception page
             return;
         }
-
-        // Inject devbar CSS before </head>
-        $cssLink = '<link rel="stylesheet" href="/bundles/discodevbar/devbar.css">';
-        $content = str_replace('</head>', $cssLink . '</head>', $content);
 
         // Inject devbar after <body> tag (handle both <body> and <body ...>)
         $content = preg_replace(
