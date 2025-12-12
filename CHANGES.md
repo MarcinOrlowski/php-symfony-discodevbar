@@ -1,12 +1,12 @@
 # Changelog
 
-## dev (TBD)
+## 1.4.0 (2025-12-12)
 
 - [#011] Added breathing animation effect to devbar stripes
 - [#008] Always include Font Awesome for standalone injection scenarios
 - [#010] Added a few GHAs to the project
 
-## v1.3.0 (2025-11-07)
+## 1.3.0 (2025-11-07)
 
 - Added error view mode to display issues (like missing config file) with distinct red/orange styling
 - Added optional Font Awesome auto-include from CDN via bundle configuration
