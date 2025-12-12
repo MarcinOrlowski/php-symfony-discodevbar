@@ -5,6 +5,7 @@
     left: 0;
     right: 0;
     z-index: 1001; /* Higher than top-nav (1000) to ensure it's above */
+    background: #8e0000;
     color: white;
     font-size: 15px;
     overflow: hidden;
@@ -36,7 +37,10 @@
     }
 }
 
-/* DiscoDevBar error state - more red/orange to indicate problem */
+.disco-devbar-error {
+    background: #d32f2f;
+}
+
 .disco-devbar-error::before {
     background: repeating-linear-gradient(
         45deg,
