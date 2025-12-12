@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 (TBD)
+## 1.5.0 (2025-12-12)
 
 - [#020] DiscoDevBar is now also added to unhandled exception error screens
 
