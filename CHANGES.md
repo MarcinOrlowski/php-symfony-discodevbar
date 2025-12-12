@@ -2,6 +2,7 @@
 
 ## 1.5.1 (2025-12-12)
 
+- [#027] Devbar template now includes its own CSS for self-contained styling
 - [#024] Breathing effect is now applied only to background layer (stripes), not the whole bar
 
 ## 1.5.0 (2025-12-12)
