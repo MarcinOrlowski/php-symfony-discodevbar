@@ -1,0 +1,100 @@
+##################################################################################
+#
+# Branch-Specific Merge Strategy Reminder
+#
+# This workflow posts an advisory comment when a PR is created, reminding the
+# developer which merge method to use based on the target branch.
+#
+# Rules:
+# - PRs to 'dev' branch: Use squash merge
+# - PRs to 'master' branch: Use merge commit
+# - Other branches: No specific requirement
+#
+# Trigger: Runs when PR is opened, reopened, or synchronized (commits pushed)
+# Action: Posts reminder comment to PR (only once, checks if already posted)
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+#
+##################################################################################
+
+name: "Merge Strategy Reminder"
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  post_merge_reminder:
+    name: "Post merge strategy reminder"
+    runs-on: ubuntu-latest
+    # Only run for PRs targeting dev or master
+    if: |
+      github.event.pull_request.base.ref == 'dev' ||
+      github.event.pull_request.base.ref == 'master'
+
+    steps:
+      - name: "Check if reminder already posted"
+        id: check_existing
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+
+            const reminderExists = comments.data.some(comment =>
+              comment.body.includes('⚠️ Merge Strategy Reminder')
+            );
+
+            return reminderExists;
+
+      - name: "Post reminder comment for dev branch"
+        if: github.event.pull_request.base.ref == 'dev' && steps.check_existing.outputs.result == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `<!-- merge-strategy-reminder: squash -->
+            ## ⚠️ Merge Strategy Reminder
+
+            This PR targets: \`dev\` branch
+
+            **Required merge method**: 🔀 **Squash and merge**
+
+            - ❌ **DO NOT USE**: Create a merge commit
+            - ✅ **USE**: Squash and merge
+            - ❌ **DO NOT USE**: Rebase and merge
+
+            This keeps the development branch history clean with one commit per PR.`
+            });
+
+      - name: "Post reminder comment for master branch"
+        if: github.event.pull_request.base.ref == 'master' && steps.check_existing.outputs.result == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `<!-- merge-strategy-reminder: merge-commit -->
+            ## ⚠️ Merge Strategy Reminder
+
+            This PR targets: \`master\` branch
+
+            **Required merge method**: 🔗 **Create a merge commit**
+
+            - ✅ **USE**: Create a merge commit
+            - ❌ **DO NOT USE**: Squash and merge
+            - ❌ **DO NOT USE**: Rebase and merge
+
+            This preserves the complete release history in the master branch.`
+            });
