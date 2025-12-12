@@ -4,10 +4,10 @@
 
 {% set banner_data = debug_banner_data() %}
 
-{# Auto-include Font Awesome if enabled in configuration #}
-{% if banner_data.fontAwesomeEnabled %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{{ banner_data.fontAwesomeVersion }}/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endif %}
+<link rel="stylesheet" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{{ banner_data.fontAwesomeVersion|default('6.7.2') }}/css/all.min.css" 
+  crossorigin="anonymous" 
+  referrerpolicy="no-referrer" />
 
 <div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}">
     <div class="disco-devbar-content">
