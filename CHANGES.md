@@ -1,5 +1,9 @@
 # Changelog
 
+## dev (TBD)
+
+- [#0008] Always include Font Awesome for standalone injection scenarios
+
 ## v1.3.0 (2025-11-07)
 
 - Added error view mode to display issues (like missing config file) with distinct red/orange styling
