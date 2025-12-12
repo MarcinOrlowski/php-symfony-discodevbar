@@ -3,6 +3,7 @@
 ## dev (TBD)
 
 - [#008] Always include Font Awesome for standalone injection scenarios
+- [#010] Added a few GHAs to the project
 
 ## v1.3.0 (2025-11-07)
 

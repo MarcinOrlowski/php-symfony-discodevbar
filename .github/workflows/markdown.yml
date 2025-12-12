@@ -4,7 +4,7 @@
 #
 ##################################################################################
 #
-# Runs markdownlint on all *.md files
+# Runs markdownlint on changed *.md files only
 #
 
 name: "Markdown Lint"
@@ -17,7 +17,7 @@ on:
 
 jobs:
   analyze_sources:
-    name: "Check if there any source code to work on?"
+    name: "Is there any source code to work on?"
     runs-on: ubuntu-latest
 
     outputs:
@@ -41,6 +41,7 @@ jobs:
           list-files: 'escape'
           filters: |
             src:
+              - '.claude'
               - 'docs/*.md'
               - 'project/*.md'
               - 'README.md'
@@ -56,7 +57,6 @@ jobs:
 
 
   mdlint:
-    name: "Run tools…"
     # Will run only if analyze_sources determined it is needed.
     needs: analyze_sources
     if: needs.analyze_sources.outputs.run_action == 'true'
@@ -68,9 +68,7 @@ jobs:
       - name: "Checkout repository..."
         uses: actions/checkout@v4
 
-      # https://github.com/marketplace/actions/my-markdown-linter
-      - name: "Running markdown linter..."
-        uses: ruzickap/action-my-markdown-linter@v1
-        with:
-          exclude: vendor
-          config_file: .markdownlint.yaml
+      - name: "Running markdown linter on changed files..."
+        run: |
+          echo "Linting changed files: ${{ needs.analyze_sources.outputs.changed_files }}"
+          npx markdownlint-cli --config .markdownlint.yaml ${{ needs.analyze_sources.outputs.changed_files }}
