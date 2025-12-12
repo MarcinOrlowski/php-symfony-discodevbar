@@ -3,6 +3,7 @@
 ## dev (2025-12-12)
 
 - [#027] Devbar template now includes its own CSS for self-contained styling
+- [#029] Normalized uses CSS styles in both views
 
 ## 1.5.1 (2025-12-12)
 
