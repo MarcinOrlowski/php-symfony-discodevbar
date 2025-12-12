@@ -1,12 +1,18 @@
 ```ascii
-▄▀▀▄             ▄▀█                    █▀▀▄  ▀                     █▀▀▄           █▀▀▄
-▀▄▄       █▀█▀▄  █   ▄▀▀▄ █▀▀▄          █  █ ▀█  ▄▀▀▄ ▄▀▀▄ ▄▀▀▄     █  █ ▄▀▀▄ █  █ █▀▀▄ ▄▀▀▄ █▄▀
-   █ █  █ █ █ █ ▀█▀  █  █ █  █ █  █     █  █  █   ▀▄  █    █  █     █  █ █▀▀  █  █ █  █  ▄▄█ █
-▀▄▄▀ ▀▄▄█ █   █  █   ▀▄▄▀ █  █ ▀▄▄█     █▄▄▀ ▄█▄ ▀▄▄▀ ▀▄▄▀ ▀▄▄▀     █▄▄▀ ▀▄▄▀ ▀▄▀  █▄▄▀ ▀▄▄▀ █
+▄▀▀▄             ▄▀█                    █▀▀▄  ▀                 █▀▀▄           █▀▀▄
+▀▄▄       █▀█▀▄  █   ▄▀▀▄ █▀▀▄          █  █ ▀█  ▄▀▀▄ ▄▀▀▄ ▄▀▀▄ █  █ ▄▀▀▄ █  █ █▀▀▄ ▄▀▀▄ █▄▀
+   █ █  █ █ █ █ ▀█▀  █  █ █  █ █  █     █  █  █   ▀▄  █    █  █ █  █ █▀▀  █  █ █  █  ▄▄█ █
+▀▄▄▀ ▀▄▄█ █   █  █   ▀▄▄▀ █  █ ▀▄▄█     █▄▄▀ ▄█▄ ▀▄▄▀ ▀▄▄▀ ▀▄▄▀ █▄▄▀ ▀▄▄▀ ▀▄▀  █▄▄▀ ▀▄▄▀ █
      ▄▄▄▀                      ▄▄▄▀
- 
+
                         Customizable developer toolbar for Symfony projects
 ```
+
+
+[![Latest Stable Version](https://poser.pugx.org/marcin-orlowski/symfony-discodevbar/v)](https://packagist.org/packages/marcin-orlowski/symfony-discodevbar)
+[![Monthly Downloads](https://poser.pugx.org/marcin-orlowski/symfony-discodevbar/d/monthly)](https://packagist.org/packages/marcin-orlowski/symfony-discodevbar)
+[![License](https://poser.pugx.org/marcin-orlowski/symfony-discodevbar/license)](https://packagist.org/packages/marcin-orlowski/symfony-discodevbar)
+
 
 # Welcome!
 
