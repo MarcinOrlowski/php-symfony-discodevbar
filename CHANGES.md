@@ -2,6 +2,7 @@
 
 ## dev (TBD)
 
+- [#011] Added breathing animation effect to devbar stripes
 - [#008] Always include Font Awesome for standalone injection scenarios
 - [#010] Added a few GHAs to the project
 
