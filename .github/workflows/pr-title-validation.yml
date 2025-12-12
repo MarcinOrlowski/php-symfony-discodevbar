@@ -95,7 +95,7 @@ jobs:
                 issue_number: parseInt(ticketId)
               });
 
-              console.log(`✓ Ticket #${ticketId} (${issue.state}): ${issue.title`);
+              console.log(`✓ Ticket #${ticketId} (${issue.state}): ${issue.title}`);
 
               if (issue.state !== 'open') {
                 const issueUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/issues/${ticketId}`;
