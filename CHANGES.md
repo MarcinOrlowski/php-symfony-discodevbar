@@ -1,8 +1,11 @@
 # Changelog
 
-## 1.5.0 (2025-12-12)
+## 1.5.1 (2025-12-12)
 
 - [#024] Breathing effect is now applied only to background layer (stripes), not the whole bar
+
+## 1.5.0 (2025-12-12)
+
 - [#020] DiscoDevBar is now also added to unhandled exception error screens
 
 ## 1.4.0 (2025-12-12)
