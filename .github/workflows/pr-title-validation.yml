@@ -1,0 +1,136 @@
+##################################################################################
+#
+# Pull Request Title Format Validation (Regular PRs)
+#
+# This workflow validates PR titles for regular pull requests (non-release PRs).
+# Release PRs (targeting master branch) are handled by release-pr-validation.yml.
+#
+# Required Format:
+#   #<ticket_id> [TYPE] <description>
+#
+# Format Rules:
+# - Ticket ID: One or more digits preceded by # (e.g., #123), must reference an OPEN issue
+# - Description: Remaining text after ID
+# - Total length: Minimum 10 characters (including ticket ID)
+#
+# Example Valid Title:
+#   #1234 Fix user authentication bug
+#
+# Trigger: Runs when PR is opened, edited, or synchronized (excludes PRs targeting master)
+# Action: Validates title format and fails check if format is incorrect
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+#
+##################################################################################
+
+name: "PR Title Validation"
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches-ignore:
+      - master
+
+permissions:
+  pull-requests: read
+  issues: read
+  statuses: write
+
+jobs:
+  validate_pr_title:
+    name: "Validate PR Title Format"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Validate title format"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            console.log(`Validating PR title: "${prTitle}"`);
+
+            // Required format: #<digits> [<3-UPPERCASE>] <text>
+            const titlePattern = /^#(\d+)\s+(.+)$/;
+            const match = prTitle.match(titlePattern);
+
+            if (!match) {
+              // Determine specific validation failure
+              const hasTicketId = /^#\d+/.test(prTitle);
+
+              let errorMessage = '❌ PR title format validation failed\n\n';
+
+              if (!hasTicketId) {
+                errorMessage += '**Issue**: Missing or invalid ticket ID\n';
+                errorMessage += '**Expected**: Ticket ID must start with # followed by one or more digits (e.g., #123)';
+              } else {
+                errorMessage += '**Issue**: Invalid title format';
+              }
+
+              core.setFailed(errorMessage);
+              return;
+            }
+
+            // Extract components
+            const ticketId = match[1];
+            const description = match[2];
+
+            console.log(`✓ Ticket ID: #${ticketId}`);
+            console.log(`✓ Description: ${description}`);
+
+            if (prTitle.length < 10) {
+              const errorMessage = '❌ PR title format validation failed\n\n' +
+                '**Issue**: Title too short\n' +
+                `**Expected**: Minimum 10 chars (current: ${prTitle.length})\n\n` +
+                `**Current title**: "${prTitle}"`;
+
+              core.setFailed(errorMessage);
+              return;
+            }
+
+            // Validate that the ticket exists and is open
+            try {
+              const { data: issue } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(ticketId)
+              });
+
+              console.log(`✓ Ticket #${ticketId} (${issue.state}): ${issue.title`);
+
+              if (issue.state !== 'open') {
+                const issueUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/issues/${ticketId}`;
+                const errorMessage = '❌ PR title validation failed\n\n' +
+                  '**Issue**: Referenced ticket is not in OPEN state\n' +
+                  `**Ticket**: #${ticketId} (state: ${issue.state})\n` +
+                  `**Link**: ${issueUrl}\n` +
+                  `**Expected**: Ticket must be in OPEN state\n\n` +
+                  `**Current title**: "${prTitle}"`;
+
+                core.setFailed(errorMessage);
+                return;
+              }
+
+            } catch (error) {
+              if (error.status === 404) {
+                const issueUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/issues/${ticketId}`;
+                const errorMessage = '❌ PR title validation failed\n\n' +
+                  '**Issue**: Referenced ticket does not exist\n' +
+                  `**Ticket ID**: #${ticketId}\n` +
+                  `**Link**: ${issueUrl} (404 - Not Found)\n` +
+                  '**Expected**: Ticket ID must reference an existing issue in this repository\n\n' +
+                  `**Current title**: "${prTitle}"`;
+
+                core.setFailed(errorMessage);
+                return;
+              } else {
+                const errorMessage = '❌ PR title validation failed\n\n' +
+                  '**Issue**: Error checking ticket status\n' +
+                  `**Error**: ${error.message}\n\n` +
+                  `**Current title**: "${prTitle}"`;
+
+                core.setFailed(errorMessage);
+                return;
+              }
+            }
+
+            console.log('✅ PR title validation successful!');
