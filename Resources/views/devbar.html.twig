@@ -4,7 +4,7 @@
 
 {% set banner_data = debug_banner_data() %}
 
-<link rel="stylesheet" href="/bundles/discodevbar/devbar.css">
+<link rel="stylesheet" href="{{ asset('bundles/discodevbar/devbar.css') }}">
 <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{{ banner_data.fontAwesomeVersion|default('6.7.2') }}/css/all.min.css"
   crossorigin="anonymous"
