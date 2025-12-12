@@ -116,13 +116,13 @@ widgets:
 
 | Property    |   Type   | Required | Description                                                                    |
 |-------------|:--------:|:--------:|--------------------------------------------------------------------------------|
-| `icon`*     | `string` |          | Optional icon to display. Can be Font Awesome class or emoji/text.            |
-| `icon_type` | `string` |          | Icon type: `fa` (Font Awesome, default) or `text` (emoji/plain text).         |
-| `text`*     | `string` |          | Optional widget label to display alongside icon.                              |
-| `url`       | `string` |    *     | Link URL to redirect to once widget is clicked.                               |
-| `target`    | `string` |          | Link target (e.g., `_blank`). Default: no target                              |
-| `title`     | `string` |          | Tooltip text. If not given, `url` is shown.                                   |
-| `expand`    |  `bool`  |          | Set to `true` to make widget expand and fill available space. Default `false`.|
+| `icon`*     | `string` |          | Optional icon to display. Can be Font Awesome class or emoji/text.             |
+| `icon_type` | `string` |          | Icon type: `fa` (Font Awesome, default) or `text` (emoji/plain text).          |
+| `text`*     | `string` |          | Optional widget label to display alongside icon.                               |
+| `url`       | `string` |    *     | Link URL to redirect to once widget is clicked.                                |
+| `target`    | `string` |          | Link target (e.g., `_blank`). Default: no target                               |
+| `title`     | `string` |          | Tooltip text. If not given, `url` is shown.                                    |
+| `expand`    |  `bool`  |          | Set to `true` to make widget expand and fill available space. Default `false`. |
 
 *) Either `icon` or `text` must be provided or exception will be thrown.
 
