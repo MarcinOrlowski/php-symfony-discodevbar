@@ -41,6 +41,12 @@ class DiscoDevBarService
      */
     private const DEFAULT_FONT_AWESOME_VERSION = '6.5.1';
 
+    /**
+     * Default background colors for breathing stripes
+     */
+    private const DEFAULT_BG_COLOR_LIGHT = '#b71c1c';
+    private const DEFAULT_BG_COLOR_DARK = '#8e0000';
+
     public function __construct(
         private readonly string $projectDir
     ) {
@@ -63,7 +69,9 @@ class DiscoDevBarService
                 errorMessage:        $errorMessage,
                 version:             $version,
                 fontAwesomeEnabled:  false,
-                fontAwesomeVersion:  self::DEFAULT_FONT_AWESOME_VERSION
+                fontAwesomeVersion:  self::DEFAULT_FONT_AWESOME_VERSION,
+                bgColorLight:        self::DEFAULT_BG_COLOR_LIGHT,
+                bgColorDark:         self::DEFAULT_BG_COLOR_DARK
             );
         }
 
@@ -99,6 +107,9 @@ class DiscoDevBarService
         $leftWidgets = $this->loadWidgets(\is_array($left) ? $left : []);
         $rightWidgets = $this->loadWidgets(\is_array($right) ? $right : []);
 
+        $bgColorLight = $config['bg_color_light'] ?? self::DEFAULT_BG_COLOR_LIGHT;
+        $bgColorDark = $config['bg_color_dark'] ?? self::DEFAULT_BG_COLOR_DARK;
+
         return new DiscoDevBarData(
             left:                $leftWidgets,
             right:               $rightWidgets,
@@ -108,7 +119,9 @@ class DiscoDevBarService
             errorMessage:        '',
             version:             $version,
             fontAwesomeEnabled:  \is_bool($fontAwesomeEnabled) ? $fontAwesomeEnabled : false,
-            fontAwesomeVersion:  $fontAwesomeVersion
+            fontAwesomeVersion:  $fontAwesomeVersion,
+            bgColorLight:        \is_string($bgColorLight) ? $bgColorLight : self::DEFAULT_BG_COLOR_LIGHT,
+            bgColorDark:         \is_string($bgColorDark) ? $bgColorDark : self::DEFAULT_BG_COLOR_DARK
         );
     }
 

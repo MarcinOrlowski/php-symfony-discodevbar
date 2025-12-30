@@ -32,6 +32,8 @@ class DiscoDevBarData
      * @param string|null   $version             Bundle version (null shows as N/A)
      * @param bool          $fontAwesomeEnabled  Whether to auto-include Font Awesome
      * @param string        $fontAwesomeVersion  Font Awesome version to use
+     * @param string        $bgColorLight        Light stripe color for background gradient
+     * @param string        $bgColorDark         Dark stripe color for background gradient
      */
     public function __construct(
         public readonly array $left,
@@ -42,7 +44,9 @@ class DiscoDevBarData
         public readonly string $errorMessage = '',
         public readonly ?string $version = null,
         public readonly bool $fontAwesomeEnabled = false,
-        public readonly string $fontAwesomeVersion = '6.5.1'
+        public readonly string $fontAwesomeVersion = '6.5.1',
+        public readonly string $bgColorLight = '#b71c1c',
+        public readonly string $bgColorDark = '#8e0000'
     ) {
     }
 }

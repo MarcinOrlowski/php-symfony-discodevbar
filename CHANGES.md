@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0 (TBD)
+
+- [#035] Added customizable background colors for breathing stripes
+- [#033] Added close widget type to dismiss devbar
+
 ## 1.5.2 (2025-12-12)
 
 - [#033] Added close widget type to dismiss devbar

@@ -208,6 +208,15 @@ Include the devbar template in your base layout:
 
 ## Customization
 
+### Background Colors
+
+Customize the breathing stripes background colors in your `.disco-devbar.yaml`:
+
+```yaml
+bg_color_light: '#b71c1c'
+bg_color_dark: '#8e0000'
+```
+
 ### Custom CSS
 
 The bundle includes default styling. To customize, override the CSS after importing bundle assets or

@@ -5,7 +5,7 @@
     left: 0;
     right: 0;
     z-index: 1001; /* Higher than top-nav (1000) to ensure it's above */
-    background: #8e0000;
+    background: var(--bg-color-dark, #8e0000);
     color: white;
     font-size: 15px;
     overflow: hidden;
@@ -17,10 +17,10 @@
     inset: 0;
     background: repeating-linear-gradient(
         45deg,
-        #b71c1c,
-        #b71c1c 10px,
-        #8e0000 10px,
-        #8e0000 20px
+        var(--bg-color-light, #b71c1c),
+        var(--bg-color-light, #b71c1c) 10px,
+        var(--bg-color-dark, #8e0000) 10px,
+        var(--bg-color-dark, #8e0000) 20px
     );
     animation: breathe 6s ease-in-out infinite;
 }
