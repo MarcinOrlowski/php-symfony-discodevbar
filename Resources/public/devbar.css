@@ -199,3 +199,4 @@ body:has(.disco-devbar) #flash-messages {
 body.page-login:has(.disco-devbar) #flash-messages {
     top: 40px; /* Height of DiscoDevBar */
 }
+
