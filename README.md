@@ -88,6 +88,7 @@ Example configuration that produces devbar shown in the screenshot above:
 ```yaml
 widgets:
    left:
+     - type: close
      - icon: "fa-bug"
        text: "1.47"
        url: "https://github.com/<FOO>/issues?q=is%3Aissue%20state%3Aopen%20milestone%3A1.47"
@@ -122,6 +123,7 @@ widgets:
 
 | Property    |   Type   | Required | Description                                                                    |
 |-------------|:--------:|:--------:|--------------------------------------------------------------------------------|
+| `type`      | `string` |          | Widget type: `link` (default) or `close` (dismisses devbar).                   |
 | `icon`*     | `string` |          | Optional icon to display. Can be Font Awesome class or emoji/text.             |
 | `icon_type` | `string` |          | Icon type: `fa` (Font Awesome, default) or `text` (emoji/plain text).          |
 | `text`*     | `string` |          | Optional widget label to display alongside icon.                               |
@@ -205,6 +207,15 @@ Include the devbar template in your base layout:
 ```
 
 ## Customization
+
+### Background Colors
+
+Customize the breathing stripes background colors in your `.disco-devbar.yaml`:
+
+```yaml
+bg_color_light: '#b71c1c'
+bg_color_dark: '#8e0000'
+```
 
 ### Custom CSS
 

@@ -10,7 +10,7 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer" />
 
-<div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}">
+<div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}" style="--bg-color-light: {{ banner_data.bgColorLight }}; --bg-color-dark: {{ banner_data.bgColorDark }}">
     <div class="disco-devbar-content">
         {% if banner_data.hasError %}
             <div class="disco-devbar-container-left">
@@ -30,23 +30,31 @@
                     {% if not loop.first %}
                         <span class="disco-devbar-separator">&middot;</span>
                     {% endif %}
-                    <span class="disco-devbar-widget {% if widget.expand %}disco-devbar-widget-expand{% endif %}">
-                        <a href="{{ widget.url }}"
-                           class="disco-devbar-link"
-                           {% if widget.target %}target="{{ widget.target }}"{% endif %}
-                           {% if widget.title %}title="{{ widget.title }}"{% endif %}>
-                            <span class="disco-devbar-link-content">
-                                {% if widget.icon %}
-                                    {% if widget.iconType.value == 'fa' %}
-                                        <i class="fa-solid {{ widget.icon }}"></i>
-                                    {% else %}
-                                        {{ widget.icon }}
+                    {% if widget.type == 'close' %}
+                        <span class="disco-devbar-widget">
+                            <a href="#" class="disco-devbar-link" onclick="document.querySelector('.disco-devbar').remove(); return false;" title="Close DevBar">
+                                <span class="disco-devbar-link-content">✕</span>
+                            </a>
+                        </span>
+                    {% else %}
+                        <span class="disco-devbar-widget {% if widget.expand %}disco-devbar-widget-expand{% endif %}">
+                            <a href="{{ widget.url }}"
+                               class="disco-devbar-link"
+                               {% if widget.target %}target="{{ widget.target }}"{% endif %}
+                               {% if widget.title %}title="{{ widget.title }}"{% endif %}>
+                                <span class="disco-devbar-link-content">
+                                    {% if widget.icon %}
+                                        {% if widget.iconType.value == 'fa' %}
+                                            <i class="fa-solid {{ widget.icon }}"></i>
+                                        {% else %}
+                                            {{ widget.icon }}
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                                {% if widget.text %}{{ widget.text }}{% endif %}
-                            </span>
-                        </a>
-                    </span>
+                                    {% if widget.text %}{{ widget.text }}{% endif %}
+                                </span>
+                            </a>
+                        </span>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div class="disco-devbar-container-right {% if banner_data.rightExpand %}disco-devbar-container-expand{% endif %}">
@@ -54,23 +62,31 @@
                     {% if not loop.first %}
                         <span class="disco-devbar-separator">&middot;</span>
                     {% endif %}
-                    <span class="disco-devbar-widget {% if widget.expand %}disco-devbar-widget-expand{% endif %}">
-                        <a href="{{ widget.url }}"
-                           class="disco-devbar-link"
-                           {% if widget.target %}target="{{ widget.target }}"{% endif %}
-                           {% if widget.title %}title="{{ widget.title }}"{% endif %}>
-                            <span class="disco-devbar-link-content">
-                                {% if widget.icon %}
-                                    {% if widget.iconType.value == 'fa' %}
-                                        <i class="fa-solid {{ widget.icon }}"></i>
-                                    {% else %}
-                                        {{ widget.icon }}
+                    {% if widget.type == 'close' %}
+                        <span class="disco-devbar-widget">
+                            <a href="#" class="disco-devbar-link" onclick="document.querySelector('.disco-devbar').remove(); return false;" title="Close DevBar">
+                                <span class="disco-devbar-link-content">✕</span>
+                            </a>
+                        </span>
+                    {% else %}
+                        <span class="disco-devbar-widget {% if widget.expand %}disco-devbar-widget-expand{% endif %}">
+                            <a href="{{ widget.url }}"
+                               class="disco-devbar-link"
+                               {% if widget.target %}target="{{ widget.target }}"{% endif %}
+                               {% if widget.title %}title="{{ widget.title }}"{% endif %}>
+                                <span class="disco-devbar-link-content">
+                                    {% if widget.icon %}
+                                        {% if widget.iconType.value == 'fa' %}
+                                            <i class="fa-solid {{ widget.icon }}"></i>
+                                        {% else %}
+                                            {{ widget.icon }}
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                                {% if widget.text %}{{ widget.text }}{% endif %}
-                            </span>
-                        </a>
-                    </span>
+                                    {% if widget.text %}{{ widget.text }}{% endif %}
+                                </span>
+                            </a>
+                        </span>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
