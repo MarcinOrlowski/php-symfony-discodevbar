@@ -2,6 +2,7 @@
 
 ## 1.5.2 (2025-12-12)
 
+- [#033] Added close widget type to dismiss devbar
 - [#027] Devbar template now includes its own CSS for self-contained styling
 - [#029] Normalized uses CSS styles in both views
 
