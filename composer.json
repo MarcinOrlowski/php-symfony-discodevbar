@@ -2,7 +2,7 @@
   "name": "marcin-orlowski/symfony-discodevbar",
   "description": "Development toolbar/banner for Symfony project",
   "type": "symfony-bundle",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "license": "MIT",
   "keywords": [
     "symfony",
