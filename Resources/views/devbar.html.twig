@@ -10,7 +10,7 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer" />
 
-<div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}">
+<div class="disco-devbar{% if banner_data.hasError %} disco-devbar-error{% endif %}" style="--bg-color-light: {{ banner_data.bgColorLight }}; --bg-color-dark: {{ banner_data.bgColorDark }}">
     <div class="disco-devbar-content">
         {% if banner_data.hasError %}
             <div class="disco-devbar-container-left">
